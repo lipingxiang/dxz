@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.GameserverinfoMapper">	
+    
+    <select id="listGameserverinfoWithPage"  resultType="com.dxz.model.v2gameserverinfo" >  
+    SELECT 
+	id,
+	cscode,
+	gameid,
+	enable,
+	websocketURL,
+	port,
+	roomLimit,
+	idHeader,
+	vipRoomHeaderList,
+	roomactionURL,
+	createTime,
+	gameserviceip,
+	groupid
+	FROM 
+	`v2_gameserverinfo`
+     limit #{pageNum},#{pageSize} 
+    </select>  
+    
+     <select id="countGameserverinfo"  resultType="Long" >  
+    	select count(1) from  v2_gameserverinfo
+     </select>
+     
+     <select id="getGameserverinfoById"  resultType="com.dxz.model.v2gameserverinfo" >  
+    	 
+    	 SELECT 
+			id,
+			cscode,
+			gameid,
+			enable,
+			websocketURL,
+			port,
+			roomLimit,
+			idHeader,
+			vipRoomHeaderList,
+			roomactionURL,
+			createTime,
+			gameserviceip,
+			groupid
+			FROM 
+			`v2_gameserverinfo`
+			where id = #{id}
+     </select>
+     
+      <update id="updateGameserverinfo"  parameterType="com.dxz.model.v2gameserverinfo"   keyProperty="id">  
+		     	UPDATE
+				v2_gameserverinfo
+				set cscode = #{cscode},
+				gameid	= #{gameid},
+				websocketURL = #{websocketURL},
+				port = #{port},
+				roomLimit = #{roomLimit},
+				idHeader = #{idHeader},
+				vipRoomHeaderList = #{vipRoomHeaderList},
+				gameserviceip = #{gameserviceip},
+				groupid = #{groupid}
+				where id = #{id}
+     </update>
+     
+      <insert id="addGameserverinfo"  parameterType="com.dxz.model.v2gameserverinfo"  useGeneratedKeys="true" keyProperty="id" >  
+		INSERT
+			v2_gameserverinfo
+			(
+			cscode,
+			gameid,
+			enable,
+			websocketURL,
+			port,
+			roomLimit,
+			idHeader,
+			vipRoomHeaderList,
+			gameserviceip,
+			groupid
+			)
+			VALUES(
+			#{cscode},
+			#{gameid},
+			#{enable},
+			#{websocketURL},
+			#{port},
+			#{roomLimit},
+			#{idHeader},
+			#{vipRoomHeaderList},
+			#{gameserviceip},
+			#{groupid}
+			)
+     </insert>
+    
+</mapper>

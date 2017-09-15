@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+   <!-- 配置Mapper文件的路径 -->
+   <mappers>
+	   <mapper  resource="mapper/UserMapper.xml"/> 
+	   <mapper resource="mapper/VerControlMapper.xml"/>
+	   <mapper resource="mapper/MisoperatorMapper.xml"/>
+	   <mapper resource="mapper/S2sconfigMapper.xml"/>
+	   <mapper resource="mapper/GameServerinfoMapper.xml"/>
+	   <mapper resource="mapper/PaymentChannelMapper.xml"/>
+	   <mapper resource="mapper/CardgroupMapper.xml"/>
+   </mappers>
+</configuration>

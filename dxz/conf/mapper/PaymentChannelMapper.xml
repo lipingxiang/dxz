@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.PaymentChannelMapper">	
+    
+    <select id="listPaymentChannelWithPage"  resultType="com.dxz.model.PaymentChannel" >  
+		SELECT
+		channelid,
+		chname,
+		os,
+		enable,
+		feeurl,
+		createtime
+		FROM
+		paymentchannel
+		LIMIT #{pageNum},#{pageSize}       
+      
+    </select>  
+     <select id="countPaymentChannel"  resultType="Long" >  
+    	select count(1) from  paymentchannel
+     </select>
+     
+     <select id="getPaymentChannelById"  resultType="com.dxz.model.PaymentChannel" >  
+<!--     	 SELECT id,upVer,os,clientid,downVer,sw,sw2,updateURL,Reserve,openURL,createTime	FROM`v2_vercontrol`	where v2_vercontrol.id = #{id} -->
+<!--     	 SELECT id,opID,opName,opLevel,ENABLE,cid,area,createTime FROM misoperator m WHERE m.id = #{id} -->
+    	 select 
+		channelid,
+		chname,
+		os,
+		enable,
+		feeurl,
+		createtime
+		FROM
+		paymentchannel
+		where channelid =#{id}
+     </select>
+     
+      <select id="updatePaymentChannel"  parameterType="com.dxz.model.PaymentChannel" >  
+<!--       	update v2_vercontrol set  downVer = #{downVer} , sw = #{sw} , sw2 = #{sw2} , updateURL = #{updateURL} , Reserve = #{reserve} , openURL = #{openURL} where id = #{id} -->
+      			UPDATE paymentchannel
+				SET 
+				chname = #{chname},
+				os = #{os},
+				enable =  #{enable},
+				feeurl =  #{feeurl}
+				WHERE
+				channelid = #{channelid}
+     </select>
+     
+      <select id="addPaymentChannel"  parameterType="com.dxz.model.PaymentChannel" >  
+      	INSERT paymentchannel (
+		chname,
+		os,
+		enable,
+		feeurl,
+		createtime
+		)
+		VALUES 
+		(#{chname},#{os},#{enable},#{feeurl},now())
+     </select>
+     
+     
+      <select id="getPaymentChannelByOpId"  resultType="com.dxz.model.PaymentChannel" >  
+      	 SELECT id,opID,opName,opLevel,ENABLE,cid,area,createTime FROM misoperator m WHERE m.opID = #{opID}
+     </select>
+     
+     
+   <select id="addCardGrouptoChannel">  
+      	insert 
+		paymentchannel_cardgroup(
+		channelid,
+		feegroupid,
+		os,
+		audit,
+		clientid,
+		enable,
+		priority,
+		code
+		)
+		VALUES(
+		#{channelid},#{feegroupid},#{os},#{audit},#{clientid},#{enable},#{priority},#{code}
+		)
+     </select>
+     
+     
+     
+     <select id="checkGrouptoChannelDataExists"  resultType="Integer" parameterType="com.dxz.model.ChannelToCard" >  
+    	SELECT count(1) FROM paymentchannel_cardgroup pc
+		where pc.channelid = #{channelid}
+		and  pc.feegroupid = #{feegroupid}
+		and pc.os = #{os}
+		and pc.clientid = #{clientid}
+     </select>
+     
+    
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.S2sConfigMapper">	
+    
+    <select id="listS2sconfigWithPage"  resultType="com.dxz.model.S2sconfig" >  
+      select id,enable,ServerType,code,acode,WebsocketURL,HttpURL,gsid,RoomHeader,PassiveMode,createTime,SDESC,matchhistoryid FROM s2sconfig limit #{pageNum},#{pageSize} 
+    </select>  
+    
+     <select id="countS2sconfig"  resultType="Long" >  
+    	select count(1) from  s2sconfig
+     </select>
+     
+     <select id="getS2sconfigById"  resultType="com.dxz.model.S2sconfig" >  
+    	SELECT
+		id,
+		enable,
+		ServerType,
+		code,
+		acode,
+		WebsocketURL,
+		HttpURL,
+		gsid,
+		RoomHeader,
+		PassiveMode,
+		createTime,
+		SDESC,
+		matchhistoryid
+		FROM
+		s2sconfig
+		WHERE
+		s2sconfig.id = #{id}
+    	 
+     </select>
+     
+      <update id="updateS2sconfig"  parameterType="com.dxz.model.S2sconfig" >  
+		update s2sconfig 
+		set  
+		enable = #{enable} ,
+		WebsocketURL = #{websocketURL} ,
+		HttpURL = #{httpURL} ,
+		<if test="acode!=null">
+            acode = #{acode},
+         </if>
+		SDESC = #{sdesc}
+		WHERE
+		s2sconfig.id = #{id}
+     </update>
+     
+      <insert id="addS2sconfig"  parameterType="com.dxz.model.S2sconfig" >  
+		INSERT
+			s2sconfig
+			(
+			enable,
+			ServerType,
+			code,
+			acode,
+			WebsocketURL,
+			HttpURL,
+			gsid,
+			RoomHeader,
+			PassiveMode,
+			SDESC,
+			matchhistoryid
+			)
+			VALUES(
+			#{enable},
+			#{serverType},
+			#{code},
+			#{acode},
+			#{websocketURL},
+			#{httpURL},
+			#{gsid},
+			#{roomHeader},
+			#{passiveMode},
+			#{sdesc},
+			#{matchhistoryid}
+			)
+     </insert>
+    
+    <select id="findCenterS2sconfig"  resultType="com.dxz.model.S2sconfig" >
+	    select id,enable,ServerType,code,acode,WebsocketURL,HttpURL,gsid,RoomHeader,PassiveMode,createTime,SDESC,matchhistoryid FROM s2sconfig  s where  s.ServerType = 0 
+    </select>
+    
+     <select id="getS2sconfigByGsidAndAcode"  resultType="com.dxz.model.S2sconfig" >
+	    SELECT
+		id,
+		ENABLE,
+		ServerType,
+		CODE,
+		acode,
+		WebsocketURL,
+		HttpURL,
+		gsid,
+		RoomHeader,
+		PassiveMode,
+		createTime,
+		SDESC,
+		matchhistoryid
+	FROM
+		s2sconfig s
+	where  s.gsid = #{gsid}
+	  and s.acode = #{acode}
+    </select>
+    
+</mapper>

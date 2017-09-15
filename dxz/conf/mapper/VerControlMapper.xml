@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.VerControlMapper">	
+    
+    <select id="listVerConWithPage"  resultType="com.dxz.model.Vercontrol" >  
+      SELECT id,upVer,os,clientid,downVer,sw,sw2,updateURL,Reserve,openURL,createTime	FROM`v2_vercontrol`	 order by clientid,os,upVer limit #{pageNum},#{pageSize} 
+    </select>  
+     <select id="countVercontrol"  resultType="Long" >  
+    	select count(1) from  v2_vercontrol
+     </select>
+     
+     <select id="getVercontrolById"  resultType="com.dxz.model.Vercontrol" >  
+    	 SELECT id,upVer,os,clientid,downVer,sw,sw2,updateURL,Reserve,openURL,createTime	FROM`v2_vercontrol`	where v2_vercontrol.id = #{id}
+     </select>
+     
+      <select id="updateVercontrol"  parameterType="com.dxz.model.Vercontrol" >  
+      	update v2_vercontrol set  downVer = #{downVer} , sw = #{sw} , sw2 = #{sw2} , updateURL = #{updateURL} , Reserve = #{reserve} , openURL = #{openURL} where id = #{id}
+     </select>
+     
+      <select id="addVercontrol"  parameterType="com.dxz.model.Vercontrol" >  
+      	INSERT  v2_vercontrol(upVer,os,clientid,downVer,sw,sw2,updateURL,Reserve,openURL) VALUES( #{upVer}, #{os}, #{clientid}, #{downVer}, #{sw}, #{sw2}, #{updateURL}, #{reserve}, #{openURL});
+     </select>
+    
+</mapper>

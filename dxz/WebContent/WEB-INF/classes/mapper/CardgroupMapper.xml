@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.CardgroupMapper">	
+    
+    <select id="listCardgroupWithPage"  resultType="com.dxz.model.Cardgroup" >  
+		SELECT
+		payid,
+		clientid,
+		roomcard,
+		giftcard,
+		money,
+		feegroup,
+		enable,
+		code,
+		createtime
+		from cardgroup 
+		order by feegroup,clientid  
+		LIMIT #{pageNum},#{pageSize}  
+    </select>  
+     <select id="countCardgroup"  resultType="Long" >  
+    	select count(1) from  paymentchannel
+     </select>
+     
+     <select id="getCardgroupById"  resultType="com.dxz.model.Cardgroup" >  
+				   SELECT
+					payid,
+					clientid,
+					roomcard,
+					giftcard,
+					money,
+					feegroup,
+					ENABLE,
+					CODE,
+					sdesc,
+					createtime
+				FROM
+					cardgroup
+				 WHERE payid = #{payid}
+     </select>
+     
+      <update id="updateCardgroup"  parameterType="com.dxz.model.PaymentChannel" >  
+      			UPDATE cardgroup
+				SET 
+				clientid = #{clientid},
+				roomcard = #{roomcard},
+				giftcard = #{giftcard},
+				money = #{money},
+				code = #{code},
+				sdesc = #{sdesc}
+				WHERE
+				payid = #{payid}
+     </update>
+     
+      <insert id="addCardgroup"  parameterType="com.dxz.model.PaymentChannel" >  
+			INSERT cardgroup(
+			clientid,
+			roomcard,
+			giftcard,
+			money,
+			feegroup,
+			enable,
+			code,
+			createtime)
+			VALUES
+			(
+			#{clientid},
+			#{roomcard},
+			#{giftcard},
+			#{money},
+			#{feegroup},
+			#{enable},
+			#{code},
+			now()
+			)
+     </insert>
+     
+     <select id="findCardgroupByChannelId"  resultType="com.dxz.vo.ChannelCardGroupData" >  
+<!-- 		    select  -->
+<!-- 			payid, -->
+<!-- 			pc.clientid, -->
+<!-- 			roomcard, -->
+<!-- 			giftcard, -->
+<!-- 			money, -->
+<!-- 			feegroup, -->
+<!-- 			c.enable, -->
+<!-- 			pc.code -->
+<!-- 			from  -->
+<!-- 			cardgroup  c  -->
+<!-- 			inner JOIN -->
+<!-- 			paymentchannel_cardgroup pc -->
+<!-- 			on(c.feegroup = pc.feegroupid) -->
+<!-- 			INNER JOIN paymentchannel p -->
+<!-- 			on(p.channelid = pc.channelid) -->
+<!-- 			where  -->
+<!-- 			p.channelid = #{channelId} -->
+<!-- 			order BY -->
+<!-- 			feegroup -->
+	SELECT
+		p.channelid,
+		p.chname,
+		pc.feegroupid,
+		pc.clientid,
+		pc.priority,
+		pc.enable,
+		pc.os
+	FROM
+		paymentchannel p
+	INNER JOIN paymentchannel_cardgroup pc ON (p.channelid = pc.channelid)
+	where  
+	p.channelid = #{channelId}
+	ORDER BY
+		pc.clientid,
+		pc.priority desc
+    </select>  
+    
+     <select id="findAllCardgroupByChannelId"  resultType="com.dxz.model.Cardgroup" >  
+		    SELECT
+			payid,
+			roomcard,
+			giftcard,
+			money,
+			feegroup,
+			createtime
+<!-- 			pc.channelid -->
+			FROM
+			cardgroup c
+<!-- 			LEFT JOIN -->
+<!-- 			paymentchannel_cardgroup pc -->
+<!-- 			on(c.feegroup = pc.feegroupid -->
+<!-- 			and pc.channelid = #{channelId} -->
+<!-- 			) -->
+			where c.enable =1
+			LIMIT #{pageNum},#{pageSize}  
+<!-- 		SELECT -->
+<!-- 		p.channelid, -->
+<!-- 		p.chname, -->
+<!-- 		pc.feegroupid, -->
+<!-- 		pc.clientid, -->
+<!-- 		pc.priority, -->
+<!-- 		pc.enable, -->
+<!-- 		pc.os -->
+<!-- 		FROM  -->
+<!-- 		cardgroup c -->
+<!-- 		LEFT JOIN -->
+<!-- 		paymentchannel_cardgroup pc -->
+<!-- 		on(c.feegroup = pc.feegroupid -->
+<!-- 		and pc.channelid = #{channelId} -->
+<!-- 		) -->
+<!-- 		where c.enable =1 -->
+<!-- 		and pc.channelid is null -->
+<!-- 		LIMIT #{pageNum},#{pageSize}   -->
+    </select>  
+    
+    
+    <select id="getMaxfeegroup"  resultType="Long" >  
+    	select MAX(feegroup) from cardgroup
+     </select>
+     
+     <select id="findCardgroupByfeegroup"  resultType="com.dxz.model.Cardgroup" >  
+     	 SELECT
+			payid,
+			clientid,
+			roomcard,
+			giftcard,
+			money,
+			feegroup,
+			enable,
+			code,
+			sdesc,
+			createtime
+			FROM
+			cardgroup c
+			WHERE c.feegroup = ${feegroup}
+     </select>
+     
+     
+     <select id="findAllChannelAndCardgroup"  resultType="com.dxz.vo.ChannelCardGroupData" >  
+     	SELECT
+		p.channelid,
+		p.chname,
+		pc.feegroupid,
+		pc.clientid,
+		pc.priority,
+		pc.enable,
+		pc.os
+	FROM
+		paymentchannel p
+	INNER JOIN paymentchannel_cardgroup pc ON (p.channelid = pc.channelid)
+	ORDER BY
+		pc.clientid,
+		pc.priority desc
+	LIMIT #{pageNum},#{pageSize}  
+     </select>
+     
+  <select id="countAllChannelAndCardgroup"  resultType="Long" > 
+		    SELECT
+			COUNT(1)
+		FROM
+			paymentchannel p
+		INNER JOIN paymentchannel_cardgroup pc ON (p.channelid = pc.channelid)
+     </select>
+     
+     
+         
+     <select id="getChannelCardGroupDataByChannelIdAndFeegroupid"  resultType="com.dxz.vo.ChannelCardGroupData" parameterType="com.dxz.model.ChannelToCard">  
+     	SELECT
+		pc.channelid,
+		feegroupid,
+		priority,
+		clientid,
+		pc.os,
+		audit,
+		p.chname,
+		pc.enable
+		FROM
+		paymentchannel_cardgroup pc
+		INNER JOIN  paymentchannel p
+		ON(p.channelid = pc.channelid)
+		WHERE 
+		pc.channelid = #{channelid}
+		and pc.feegroupid = #{feegroupid}
+		and pc.os = #{os}
+		and pc.clientid = #{clientid}
+     </select>
+     
+      <update id="updateChannelCardGroup" parameterType="com.dxz.vo.ChannelCardGroupData" >  
+     	UPDATE
+		paymentchannel_cardgroup pc
+		SET 
+		priority = #{priority},
+		enable = #{enable}
+		WHERE pc.channelid = #{channelid}
+		and pc.feegroupid =  #{feegroupid}
+		and pc.os =  #{os}
+		and pc.clientid =  #{clientid}
+     </update>
+     
+</mapper>

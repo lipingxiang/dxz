@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dxz.mapper.MisoperatorMapper">	
+    
+    <select id="listMisoperatorWithPage"  resultType="com.dxz.model.Misoperator" >  
+      select id,opID,opName,opLevel,enable,cid,area,createTime from misoperator	limit #{pageNum},#{pageSize} 
+    </select>  
+     <select id="countMisoperator"  resultType="Long" >  
+    	select count(1) from  misoperator
+     </select>
+     
+     <select id="getMisoperatorById"  resultType="com.dxz.model.Misoperator" >  
+<!--     	 SELECT id,upVer,os,clientid,downVer,sw,sw2,updateURL,Reserve,openURL,createTime	FROM`v2_vercontrol`	where v2_vercontrol.id = #{id} -->
+    	 SELECT id,opID,opName,opLevel,ENABLE,cid,area,createTime FROM misoperator m WHERE m.id = #{id}
+     </select>
+     
+      <select id="updateMisoperator"  parameterType="com.dxz.model.Misoperator" >  
+<!--       	update v2_vercontrol set  downVer = #{downVer} , sw = #{sw} , sw2 = #{sw2} , updateURL = #{updateURL} , Reserve = #{reserve} , openURL = #{openURL} where id = #{id} -->
+      			UPDATE misoperator
+				SET 
+				opLevel = #{opLevel},
+				enable = #{enable},
+				cid =  #{cid},
+				area =  #{area}
+				WHERE
+				id = #{id}
+     </select>
+     
+      <select id="addMisoperator"  parameterType="com.dxz.model.Misoperator" >  
+      	INSERT misoperator (
+				opID,
+				opName,
+				opLevel,
+				enable, 
+				cid,
+				area,
+				createTime
+				)
+				VALUES 
+					(#{opID},#{opName},#{opLevel},#{enable},#{cid},#{area},now())
+     </select>
+     
+     
+      <select id="getMisoperatorByOpId"  resultType="com.dxz.model.Misoperator" >  
+      	 SELECT id,opID,opName,opLevel,ENABLE,cid,area,createTime FROM misoperator m WHERE m.opID = #{opID}
+     </select>
+    
+</mapper>
