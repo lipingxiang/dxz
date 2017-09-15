@@ -16,7 +16,6 @@
      </select>
      
       <select id="updateMisoperator"  parameterType="com.dxz.model.Misoperator" >  
-<!--       	update v2_vercontrol set  downVer = #{downVer} , sw = #{sw} , sw2 = #{sw2} , updateURL = #{updateURL} , Reserve = #{reserve} , openURL = #{openURL} where id = #{id} -->
       			UPDATE misoperator
 				SET 
 				opLevel = #{opLevel},
